@@ -5,17 +5,17 @@ def load_words():
     """
     this function help to load more word by updating word_list (list)    
     Example :-
-        word_list = ["learning", "kindness", "joy", "kiet", "good"] (old)
-        word_list = ["learning", "kindness", "joy", "kiet", "good" ,"hello"] (new)
+        word_list = ["learning", "kindness", "joy", "kite", "good"] (old)
+        word_list = ["learning", "kindness", "joy", "kite", "good" ,"hello"] (new)
     """
-    word_list = ["learning", "kindness", "joy", "kiet", "good"]
+    word_list = ["learning", "kindness", "joy", "kite", "good"]
 
     # uncomment the below for testing
     
-    # WORDLIST_FILENAME = "words.txt"
-    # inFile = open(WORDLIST_FILENAME, 'r', 0)
-    # line = inFile.readline()
-    # word_list = string.split(line)
+    WORDLIST_FILENAME = "words.txt"
+    inFile = open('words.txt', 'r')
+    line = inFile.readline()
+    word_list = line.split()
 
     return word_list
 
