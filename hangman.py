@@ -1,4 +1,5 @@
 import string
+import random
 from words import choose_word
 from images import IMAGES
 '''
@@ -58,6 +59,17 @@ def get_available_letters(letters_guessed):
         letters_left = letters_left.replace(i, '')
     return letters_left
 
+def ifValid(letter):
+    if (len(letter) == 1 and letter.islower()):
+        return True
+    return False
+
+def getHint(secret_word, available_letters):
+    while(True):
+        hint_letter = random.choice(secret_word)
+        if hint_letter in available_letters:
+            return hint_letter
+
 
 def hangman(secret_word):
     '''
@@ -80,20 +92,34 @@ def hangman(secret_word):
 
     letters_guessed = []
     lives = 8
+    hint = 0
 
     while(True):
         available_letters = get_available_letters(letters_guessed)
-        print("\n\n\nRemaining Lives: {} ".format(lives))
+        print("\n\nRemaining Lives: {} ".format(lives))
         print("Available letters: {} ".format(available_letters))
 
+        if hint == 0:
+            print("Press 1 for using HINT")
         guess = input("Please guess a letter: ")
         letter = guess.lower()
+
+        if guess == '1' and hint == 0:
+            hint = 1
+            hint_letter = getHint(secret_word, available_letters)
+            print("HINT: {}".format(hint_letter))
+            continue
+
+        if not ifValid(letter):
+            print("{} is an Invalid Input! Try Again!".format(letter))
+            continue
 
         if letter in secret_word:
             letters_guessed.append(letter)
             print("Good guess: {} ".format(
                 get_guessed_word(secret_word, letters_guessed)))
-            print(IMAGES[7 - lives])
+            if lives != 8:
+                print(IMAGES[7 - lives])
             if is_word_guessed(secret_word, letters_guessed) == True:
                 print(" * * Congratulations, you won! * * ", end='\n\n')
                 break
@@ -102,8 +128,8 @@ def hangman(secret_word):
                 get_guessed_word(secret_word, letters_guessed)))
             letters_guessed.append(letter)
             print("")
-            print(IMAGES[8 - lives])
             lives -= 1
+            print(IMAGES[7 - lives])
 
         if lives == 0:
             print("* * Game Over! * * \n* * YOU LOSE! * *")
